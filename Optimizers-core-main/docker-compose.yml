@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  bd:
+    container_name: mysql
+    image: mysql
+    restart: unless-stopped
+    environment:
+      MY_SQL_PASSWORD: root
+    volumes:
+      - /home/mysql/data:/var/lib/mysql
+  backend:
+    container_name: devopsproject
+    image: devopsproject
+    restart: on-failure
+    ports:
+      - "8089:8089"
+    depends_on:
+      - "bd"
+  frontend:
+    container_name: devopsangular
+    image: devopsprojectclient
+    restart: on-failure
+    ports:
+      - "4200:4200"
